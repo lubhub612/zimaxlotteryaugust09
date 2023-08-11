@@ -694,10 +694,57 @@ export default function DefiLottery() {
     try {
 
       setInputValue(val);
-      getCost();
+     // getCost();
+      getTicketCost(val);
 
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const getTicketCost = async (valZMX) => {
+    try {
+      
+        let _ZmzLotteryContract= await ZmzLotteryContract();
+      
+        const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+        const values = await _ZmzLotteryContract.viewLottery(id);
+
+        if (valZMX == 0) {
+          setPercent(0);
+        } else {
+          let costForOne = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+              values.discountDivisor,
+              values.priceTicketInZMX,
+              1
+            );
+      
+        costForOne = (costForOne.toString() / 10 ** 5);
+          let val = costForOne * 1;
+          setCostValue(val);
+          setCostUSDValue(val *  valZMX)
+
+          let acutalCostForBuy = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+              values.discountDivisor,
+              values.priceTicketInZMX,
+              valZMX
+            );
+ 
+
+       
+          acutalCostForBuy = (acutalCostForBuy.toString() / 10 ** 5);
+          acutalCostForBuy = parseFloat(acutalCostForBuy).toFixed(4);
+          setActualCost(acutalCostForBuy);
+
+          let percentage = values.discountDivisor / 10000;
+          percentage = parseFloat(percentage).toFixed(2);
+          percentage = (percentage * valZMX).toFixed(2);
+
+          setPercent(percentage);
+        
+          }
+    } catch (error) {
+      console.log("error while getting zimax balance", error);
     }
   };
 
