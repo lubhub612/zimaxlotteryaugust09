@@ -12,7 +12,7 @@ import {
   NumberContainer,
   ButtonContainer,
   Number,
-  Container
+  Container,
 } from './styles';
 import badgeTicket from '../../assets/ticket-badge.svg';
 import star1 from '../../assets/star-small.png';
@@ -41,24 +41,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import bigInt from 'big-integer';
 import BigNumber from 'big-number';
 
-
 //const ZMZ_CONTRACT_ADDRESS = '0x3fF71Dce2dbCd2E60907EA8811C4C2520b9f70e8';
 //const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x9579e3E8cC055e211C661209fa5bD980bED7E152';
 
-
 const ZMZ_CONTRACT_ADDRESS = '0xA080dCB3350d99320Bf67A997D7f876284727ec7';
-const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x9E3c8ECeE958Eb8A5A5b871792840CCb3BdB5CC5';
-
-
+const ZMZ_LOTTERY_CONTRACT_ADDRESS =
+  '0x9E3c8ECeE958Eb8A5A5b871792840CCb3BdB5CC5';
 
 export default function DefiLottery() {
   const renderer = ({ hours, minutes }) => {
     return (
       <span className="hoursTimes">
-        {hours}
-         H &nbsp;
-        {minutes}
-         M
+        {hours}H &nbsp;
+        {minutes}M
       </span>
     );
   };
@@ -86,7 +81,7 @@ export default function DefiLottery() {
   const [percent, setPercent] = useState(0);
   const [valueInput, setInputValue] = useState(1);
   const [costValue, setCostValue] = useState(0);
-  const [actualCost, setActualCost] = useState("0");
+  const [actualCost, setActualCost] = useState('0');
   const [lotteryNumber, setLotteryNumbers] = useState([]);
   const [lotteryEndTime, setLotteryEndTime] = useState(0);
   const [finalNumber, setFinalNumber] = useState(0);
@@ -112,21 +107,22 @@ export default function DefiLottery() {
   const [zmxToBurn, setZmxToBurn] = useState(0);
   const [rewardBrackets, setRewardBrackets] = useState([]);
   const [rewardsBreakdownRound, setRewardsBreakdownRound] = useState([]);
-  const [countWinnersPerBracketRound, setCountWinnersPerBracketRound] = useState([]);
-  const [rewardsLessTreasuryFeeRound, setRewardsLessTreasuryFeeRound] = useState(0);
+  const [countWinnersPerBracketRound, setCountWinnersPerBracketRound] =
+    useState([]);
+  const [rewardsLessTreasuryFeeRound, setRewardsLessTreasuryFeeRound] =
+    useState(0);
   const [zmxToBurnRound, setZmxToBurnRound] = useState(0);
   const [rewardBracketsRound, setRewardBracketsRound] = useState([]);
   const [amountRound, setRoundAmount] = useState(0.0);
-  const [lotteryRounPersonaldNumber, setLotteryRoundPersonalNumbers] = useState([]);
-  const [lotteryRoundPersonalTicketLength, setTotalRoundPersonalTicketsLength] = useState(0);
-
+  const [lotteryRounPersonaldNumber, setLotteryRoundPersonalNumbers] = useState(
+    []
+  );
+  const [lotteryRoundPersonalTicketLength, setTotalRoundPersonalTicketsLength] =
+    useState(0);
 
   const { wallet } = useCustomWallet();
-  
 
-
-  const{t}=useTranslation()
-
+  const { t } = useTranslation();
 
   const handleConnectWallet = () => {
     setIsMenu(false);
@@ -142,53 +138,49 @@ export default function DefiLottery() {
 
   const toggleRound1 = () => {
     setLotteryRound(!lotteryRound);
-  //  handleRoundLottery()
+    //  handleRoundLottery()
   };
 
   const toggleDetails = () => {
     setLotteryDetails(!lotteryDetails);
-    handleLottery()
+    handleLottery();
   };
 
   const toggleDetails2 = () => {
     setLotteryDetails2(!lotteryDetails2);
-    handleLottery()
+    handleLottery();
     setLotteryDetails3(false);
   };
 
   const toggleDetails3 = () => {
     setLotteryDetails3(!lotteryDetails3);
-    getReward()
+    getReward();
   };
 
   const toggleDetails31 = () => {
     setLotteryDetails31(!lotteryDetails31);
-    getReward()
+    getReward();
   };
   const toggleDetails4 = () => {
     setLotteryDetails4(!lotteryDetails4);
-    handleLottery()
+    handleLottery();
     setLotteryDetails31(false);
   };
 
-
   const toggleDetails5 = () => {
     setLotteryDetails5(!lotteryDetails5);
-    handlePrizePool()
-   
+    handlePrizePool();
   };
- 
 
   const toggleDetails21 = () => {
     setLotteryDetails21(!lotteryDetails21);
-    handlePrizePoolRound()
-   
+    handlePrizePoolRound();
   };
 
   const toggleViewTicketBox = () => {
     setLotteryDetails6(!lotteryDetails6);
-    handleRoundLottery()
-  };  
+    handleRoundLottery();
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -212,26 +204,23 @@ export default function DefiLottery() {
   const maxNumber = async (value) => {
     setInputValue(value);
   };
-  
+
   const decreaseNumber = () => {
     if (valueInput > 1) {
       setInputValue(valueInput - 1);
-  
     }
   };
   const increaseNumber = () => {
     if (valueInput <= 99) {
       setInputValue(valueInput + 1);
-  
     }
   };
 
   useEffect(() => {
-    handleLotteryInfo()
-    GetRound()
-    handleRoundLotteryTicket()
+    handleLotteryInfo();
+    GetRound();
+    handleRoundLotteryTicket();
   }, []);
-
 
   setTimeout(() => {
     handleEndTime();
@@ -277,25 +266,22 @@ export default function DefiLottery() {
     }
   };
 
-
   const GetRound = async () => {
     try {
-      
-        let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
-      setLotteryCurrentID(id*1);
+      setLotteryCurrentID(id * 1);
       const values = await _ZmzLotteryContract.viewLottery(id);
 
-        if (values.status == 1) {
-          setInputField(id - 1);
-          handleLotery(id - 1) ;
-        } else {
-          setInputField(id);
-          handleLotery(id);
-        }
-      
+      if (values.status == 1) {
+        setInputField(id - 1);
+        handleLotery(id - 1);
+      } else {
+        setInputField(id);
+        handleLotery(id);
+      }
     } catch (error) {
-      console.log("error while getting Round");
+      console.log('error while getting Round');
     }
   };
 
@@ -304,19 +290,16 @@ export default function DefiLottery() {
       setInputField(inputField - 1);
       handleLotery(inputField - 1);
     }
- 
   };
 
-
-  const handlePlus = async  () => {
+  const handlePlus = async () => {
     if (inputField > 999) {
       setInputField(999);
       handleLotery(999);
     } else {
-      setInputField((inputField * 1) + 1);
-       handleLotery((inputField * 1) + 1);
+      setInputField(inputField * 1 + 1);
+      handleLotery(inputField * 1 + 1);
     }
-
   };
   const handleLotteryOnChange = (e) => {
     if (e.target.value >= 0) {
@@ -325,160 +308,157 @@ export default function DefiLottery() {
     } else {
       handleLotery(0);
     }
-
   };
 
   const firstLotteryId = async () => {
     try {
-      
-        let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
       const values = await _ZmzLotteryContract.viewLottery(id);
 
-        if (id > 1) {
-          setInputField(1);
-          handleLotery(1);
-        } else {
-          handleLotery(0);
-          setInputField(0);
-        }
- 
+      if (id > 1) {
+        setInputField(1);
+        handleLotery(1);
+      } else {
+        handleLotery(0);
+        setInputField(0);
+      }
     } catch (error) {
-      console.log("error while getting Round");
+      console.log('error while getting Round');
     }
   };
   const lastLotteryId = async () => {
     try {
-      
-      let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
       const values = await _ZmzLotteryContract.viewLottery(id);
-        if (values.status == 1) {
-          setInputField(id - 1);
-          handleLotery(id - 1);
-        } else {
-          setInputField(id);
-          handleLotery(id);
-        }
-       
+      if (values.status == 1) {
+        setInputField(id - 1);
+        handleLotery(id - 1);
+      } else {
+        setInputField(id);
+        handleLotery(id);
+      }
     } catch (error) {
-      console.log("error while getting Round");
+      console.log('error while getting Round');
     }
   };
 
   const attachZero = (num) => {
-    return ("00" + num).slice(-3);
+    return ('00' + num).slice(-3);
   };
 
   const attachZeroNum = (num, index) => {
-    return ("00" + num).slice(-index);
+    return ('00' + num).slice(-index);
   };
 
   const removeOneNum = (num) => {
-    return ("0" + num).slice(2);
+    return ('0' + num).slice(2);
   };
 
   const handleEndTime = async () => {
     try {
-      let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
       let lotteryEndTime = await _ZmzLotteryContract.getTime(id);
-      setLotteryEndTime(lotteryEndTime*1);
+      setLotteryEndTime(lotteryEndTime * 1);
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   };
 
   const handleLotteryInfo = async () => {
     try {
-      
-      let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
       const values = await _ZmzLotteryContract.viewLottery(id);
 
-        if (values.status == 1) {
-          handleLotery(id - 1);
-        } else {
-          handleLotery(id);
-        }
-      
+      if (values.status == 1) {
+        handleLotery(id - 1);
+      } else {
+        handleLotery(id);
+      }
     } catch (error) {
-      console.log("error ", error);
+      console.log('error ', error);
     }
   };
 
   function reversedNum(num) {
     return (
-      parseFloat(num.toString().split("").reverse().join("")) * Math.sign(num)
+      parseFloat(num.toString().split('').reverse().join('')) * Math.sign(num)
     );
   }
 
-
   const handleLotery = async (id) => {
     try {
-      let _ZmzLotteryContract= await ZmzLotteryContract();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
       const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
-      if(id > lotteryID){
+      if (id > lotteryID) {
         toast.error('Input ID exceeded currently Max Lottery No');
-      } else if (id == lotteryID){
+      } else if (id == lotteryID) {
         toast.info('Lottery Result is yet to draw');
-       } else {
-      let lotteryInfo = await _ZmzLotteryContract.viewLottery(id);
-      let  date2 = new Date(lotteryInfo.startTime * 1000); 
-      let formattedDate2 = date2.toLocaleString();
-     setLotteryID(id*1);
-      setLotteryStartTime(formattedDate2);
-      let finalNumber = lotteryInfo.finalNumber;
-      finalNumber = finalNumber % 1000000;
-      let num = reversedNum(finalNumber);
-      if (num.toString().length == 6) {
-        num = num.toString();
-      } else if (num.toString().length == 5) {
-        num = "0" + num.toString();
-      } else if (num.toString().length == 4) {
-        num = "00" + num.toString();
-      } else if (num.toString().length == 3) {
-        num = "000" + num.toString();
-      } else if (num.toString().length == 2) {
-        num = "0000" + num.toString();
-      } else if (num.toString().length == 1) {
-        num = "00000" + num.toString();
       } else {
-        num = "000000" + num.toString();
-      }
+        let lotteryInfo = await _ZmzLotteryContract.viewLottery(id);
+        let date2 = new Date(lotteryInfo.startTime * 1000);
+        let formattedDate2 = date2.toLocaleString();
+        setLotteryID(id * 1);
+        setLotteryStartTime(formattedDate2);
+        let finalNumber = lotteryInfo.finalNumber;
+        finalNumber = finalNumber % 1000000;
+        let num = reversedNum(finalNumber);
+        if (num.toString().length == 6) {
+          num = num.toString();
+        } else if (num.toString().length == 5) {
+          num = '0' + num.toString();
+        } else if (num.toString().length == 4) {
+          num = '00' + num.toString();
+        } else if (num.toString().length == 3) {
+          num = '000' + num.toString();
+        } else if (num.toString().length == 2) {
+          num = '0000' + num.toString();
+        } else if (num.toString().length == 1) {
+          num = '00000' + num.toString();
+        } else {
+          num = '000000' + num.toString();
+        }
 
-      setWinnerNumber(num);
-      setAmount(lotteryInfo.amountCollectedInZMX * 0.000001);
-    } 
+        setWinnerNumber(num);
+        setAmount(lotteryInfo.amountCollectedInZMX * 0.000001);
+      }
     } catch (error) {
-      console.log("error while setting lottery");
+      console.log('error while setting lottery');
     }
   };
 
   const handleLottery = async () => {
     try {
       let _ZmzLotteryContract = await ZmzLotteryContract();
-      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(wallet.address, inputField, 0, 100);
-      
-      setTotalTicketsLength(lotteryInfo[3]*1);
-      
+      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(
+        wallet.address,
+        inputField,
+        0,
+        100
+      );
+
+      setTotalTicketsLength(lotteryInfo[3] * 1);
+
       let array = [...lotteryInfo[1]];
       let newArray = array.map((item) => {
         item = reversedNum(item % 1000000);
         if (item.toString().length == 6) {
           item = item.toString();
         } else if (item.toString().length == 5) {
-          item = "0" + item.toString();
+          item = '0' + item.toString();
         } else if (item.toString().length == 4) {
-          item = "00" + item.toString();
+          item = '00' + item.toString();
         } else if (item.toString().length == 3) {
-          item = "000" + item.toString();
+          item = '000' + item.toString();
         } else if (item.toString().length == 2) {
-          item = "0000" + item.toString();
+          item = '0000' + item.toString();
         } else if (item.toString().length == 1) {
-          item = "00000" + item.toString();
+          item = '00000' + item.toString();
         } else {
-          item = "000000" + item.toString();
+          item = '000000' + item.toString();
         }
         return item;
       });
@@ -486,15 +466,15 @@ export default function DefiLottery() {
       setLotteryWinnerNumbers(newArray);
 
       let num = winnerNumber;
-      num = num.toString().split("");
+      num = num.toString().split('');
       let totalLotteryWinnerNumber = 0;
       let countArray = [];
       let ticketIDs = [];
-      let boolForTicketIds= [];
+      let boolForTicketIds = [];
       newArray.map((item, index) => {
         let count = 1;
         let bool = true;
-        let splitted = item.toString().split("");
+        let splitted = item.toString().split('');
 
         for (let i = 0; i < num.length; i++) {
           if (splitted[i] == num[i] && count > i) {
@@ -515,10 +495,9 @@ export default function DefiLottery() {
         setCountForBracket(countArray);
         setBoolTicketIdsForClaim(boolForTicketIds);
         setWinnerCount(totalLotteryWinnerNumber);
-
       });
     } catch (error) {
-      console.log("error while setting lottery");
+      console.log('error while setting lottery');
     }
   };
 
@@ -526,72 +505,77 @@ export default function DefiLottery() {
     try {
       let _ZmzLotteryContract = await ZmzLotteryContract();
       const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
-      if(id > lotteryID){
+      if (id > lotteryID) {
         toast.error('Input ID exceeded currently Max Lottery No');
-      } else if (id == lotteryID){
+      } else if (id == lotteryID) {
         toast.info('Lottery Result is yet to anounce');
-       } else {
-      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(wallet.address, id, 0, 100);
-      setTotalTicketsLength(lotteryInfo[3]*1);
-     
-      let array = [...lotteryInfo[1]];
-      let newArray = array.map((item) => {
-        item = reversedNum(item % 1000000);
-        if (item.toString().length == 6) {
-          item = item.toString();
-        } else if (item.toString().length == 5) {
-          item = "0" + item.toString();
-        } else if (item.toString().length == 4) {
-          item = "00" + item.toString();
-        } else if (item.toString().length == 3) {
-          item = "000" + item.toString();
-        } else if (item.toString().length == 2) {
-          item = "0000" + item.toString();
-        } else if (item.toString().length == 1) {
-          item = "00000" + item.toString();
-        } else {
-          item = "000000" + item.toString();
-        }
-        return item;
-      });
+      } else {
+        let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(
+          wallet.address,
+          id,
+          0,
+          100
+        );
+        setTotalTicketsLength(lotteryInfo[3] * 1);
 
-      setLotteryWinnerNumbers(newArray);
+        let array = [...lotteryInfo[1]];
+        let newArray = array.map((item) => {
+          item = reversedNum(item % 1000000);
+          if (item.toString().length == 6) {
+            item = item.toString();
+          } else if (item.toString().length == 5) {
+            item = '0' + item.toString();
+          } else if (item.toString().length == 4) {
+            item = '00' + item.toString();
+          } else if (item.toString().length == 3) {
+            item = '000' + item.toString();
+          } else if (item.toString().length == 2) {
+            item = '0000' + item.toString();
+          } else if (item.toString().length == 1) {
+            item = '00000' + item.toString();
+          } else {
+            item = '000000' + item.toString();
+          }
+          return item;
+        });
 
-      let num = winnerNumber;
-      num = num.toString().split("");
-      let totalLotteryWinnerNumber = 0;
-      let countArray = [];
-      let ticketIDs = [];
-      let boolForTicketIds= [];
-      newArray.map((item, index) => {
-        let count = 1;
-        let bool = true;
-        let splitted = item.toString().split("");
+        setLotteryWinnerNumbers(newArray);
 
-        for (let i = 0; i < num.length; i++) {
-          if (splitted[i] == num[i] && count > i) {
-            count++;
-            if (bool == true) {
-              totalLotteryWinnerNumber++;
-              bool = false;
-              ticketIDs.push(lotteryInfo[0][index]);
-              boolForTicketIds.push(lotteryInfo[2][index]);
+        let num = winnerNumber;
+        num = num.toString().split('');
+        let totalLotteryWinnerNumber = 0;
+        let countArray = [];
+        let ticketIDs = [];
+        let boolForTicketIds = [];
+        newArray.map((item, index) => {
+          let count = 1;
+          let bool = true;
+          let splitted = item.toString().split('');
+
+          for (let i = 0; i < num.length; i++) {
+            if (splitted[i] == num[i] && count > i) {
+              count++;
+              if (bool == true) {
+                totalLotteryWinnerNumber++;
+                bool = false;
+                ticketIDs.push(lotteryInfo[0][index]);
+                boolForTicketIds.push(lotteryInfo[2][index]);
+              }
             }
           }
-        }
-        if (count > 1) {
-          countArray.push(count - 2);
-        }
+          if (count > 1) {
+            countArray.push(count - 2);
+          }
 
-        setTicketIdsForClaim(ticketIDs);
-        setCountForBracket(countArray);
-        setBoolTicketIdsForClaim(boolForTicketIds);
-          
-           setWinnerCount(totalLotteryWinnerNumber);
-      });
-     }
+          setTicketIdsForClaim(ticketIDs);
+          setCountForBracket(countArray);
+          setBoolTicketIdsForClaim(boolForTicketIds);
+
+          setWinnerCount(totalLotteryWinnerNumber);
+        });
+      }
     } catch (error) {
-      console.log("error while setting lottery");
+      console.log('error while setting lottery');
     }
   };
 
@@ -599,14 +583,18 @@ export default function DefiLottery() {
     try {
       let _ZmzLotteryContract = await ZmzLotteryContract();
       const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
-      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(wallet.address, lotteryID, 0, 100);
+      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(
+        wallet.address,
+        lotteryID,
+        0,
+        100
+      );
 
       let array = [...lotteryInfo[1]];
-      setTotalRoundTicketsLength(lotteryInfo[3]*1);
+      setTotalRoundTicketsLength(lotteryInfo[3] * 1);
       setLotteryRoundNumbers(array);
-
     } catch (error) {
-      console.log("error while setting lottery");
+      console.log('error while setting lottery');
     }
   };
 
@@ -614,89 +602,83 @@ export default function DefiLottery() {
     try {
       let _ZmzLotteryContract = await ZmzLotteryContract();
       const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
-      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(wallet.address, lotteryID, 0, 100);
+      let lotteryInfo = await _ZmzLotteryContract.viewUserInfoForLotteryId(
+        wallet.address,
+        lotteryID,
+        0,
+        100
+      );
 
       let array = [...lotteryInfo[1]];
-      setTotalRoundPersonalTicketsLength(lotteryInfo[3]*1);
+      setTotalRoundPersonalTicketsLength(lotteryInfo[3] * 1);
       setLotteryRoundPersonalNumbers(array);
-
     } catch (error) {
-      console.log("error while setting lottery");
+      console.log('error while setting lottery');
     }
   };
 
   const handlePrizePool = async () => {
     try {
-      
-      let _ZmzLotteryContract= await ZmzLotteryContract();
-    const id = await _ZmzLotteryContract.viewCurrentLotteryId();
-    const values = await _ZmzLotteryContract.viewLottery(id);
-    const rewardBrackets = [0, 1, 2, 3, 4, 5];
-    setRewardBrackets(rewardBrackets)
-    const feeAsPercentage = (values.treasuryFee) /(100);
-    const amountCollectedInZMX = (values.amountCollectedInZMX) /(10**5)
-    const zmxToBurn1 = (feeAsPercentage)*(amountCollectedInZMX)
-    const zmxToBurn = (zmxToBurn1)/(100)
-    const amountLessTreasuryFee = (amountCollectedInZMX - zmxToBurn)
-    setRewardsBreakdown(values.rewardsBreakdown)
-    setCountWinnersPerBracket(values.countWinnersPerBracket)
-    setRewardsLessTreasuryFee(amountLessTreasuryFee)
-    setZmxToBurn(zmxToBurn)
-    
-  } catch (error) {
-    console.log("error while getting Round");
-    console.log(error)
-  }
-
-  }
-
+      let _ZmzLotteryContract = await ZmzLotteryContract();
+      const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+      const values = await _ZmzLotteryContract.viewLottery(id);
+      const rewardBrackets = [0, 1, 2, 3, 4, 5];
+      setRewardBrackets(rewardBrackets);
+      const feeAsPercentage = values.treasuryFee / 100;
+      const amountCollectedInZMX = values.amountCollectedInZMX / 10 ** 5;
+      const zmxToBurn1 = feeAsPercentage * amountCollectedInZMX;
+      const zmxToBurn = zmxToBurn1 / 100;
+      const amountLessTreasuryFee = amountCollectedInZMX - zmxToBurn;
+      setRewardsBreakdown(values.rewardsBreakdown);
+      setCountWinnersPerBracket(values.countWinnersPerBracket);
+      setRewardsLessTreasuryFee(amountLessTreasuryFee);
+      setZmxToBurn(zmxToBurn);
+    } catch (error) {
+      console.log('error while getting Round');
+      console.log(error);
+    }
+  };
 
   const handlePrizePoolRound = async () => {
     try {
-      
-      let _ZmzLotteryContract= await ZmzLotteryContract();
-    const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
-    if(inputField > lotteryID){
-      toast.error('Input ID exceeded currently Max Lottery No');
-    } else if (inputField == lotteryID){
-      toast.info('Lottery Result is yet to draw');
-     } else {
-    const values = await _ZmzLotteryContract.viewLottery(inputField);
-    const rewardBrackets = [0, 1, 2, 3, 4, 5];
-    setRewardBracketsRound(rewardBrackets)
-    const feeAsPercentage = (values.treasuryFee) /(100);
-    const amountCollectedInZMX = (values.amountCollectedInZMX) /(10**5)
-    const zmxToBurn1 = (feeAsPercentage)*(amountCollectedInZMX)
-    const zmxToBurn = (zmxToBurn1)/(100)
-    const amountLessTreasuryFee = (amountCollectedInZMX - zmxToBurn)
-    setRewardsBreakdownRound(values.rewardsBreakdown)
-    setRewardsLessTreasuryFeeRound(amountLessTreasuryFee)
-    setZmxToBurnRound(zmxToBurn)
-    setRoundAmount(values.amountCollectedInZMX * 0.000001);
-    let array=[];
-          for (let i = 0; i < rewardBrackets.length; i++) {
-            let num = (values.countWinnersPerBracket[i]._hex)*1
-            array = [...array, num];
-          }
-         
-          setCountWinnersPerBracketRound(array);
-   
-     }
-  } catch (error) {
-    console.log("error while getting Round");
-    console.log(error)
-  }
+      let _ZmzLotteryContract = await ZmzLotteryContract();
+      const lotteryID = await _ZmzLotteryContract.viewCurrentLotteryId();
+      if (inputField > lotteryID) {
+        toast.error('Input ID exceeded currently Max Lottery No');
+      } else if (inputField == lotteryID) {
+        toast.info('Lottery Result is yet to draw');
+      } else {
+        const values = await _ZmzLotteryContract.viewLottery(inputField);
+        const rewardBrackets = [0, 1, 2, 3, 4, 5];
+        setRewardBracketsRound(rewardBrackets);
+        const feeAsPercentage = values.treasuryFee / 100;
+        const amountCollectedInZMX = values.amountCollectedInZMX / 10 ** 5;
+        const zmxToBurn1 = feeAsPercentage * amountCollectedInZMX;
+        const zmxToBurn = zmxToBurn1 / 100;
+        const amountLessTreasuryFee = amountCollectedInZMX - zmxToBurn;
+        setRewardsBreakdownRound(values.rewardsBreakdown);
+        setRewardsLessTreasuryFeeRound(amountLessTreasuryFee);
+        setZmxToBurnRound(zmxToBurn);
+        setRoundAmount(values.amountCollectedInZMX * 0.000001);
+        let array = [];
+        for (let i = 0; i < rewardBrackets.length; i++) {
+          let num = values.countWinnersPerBracket[i]._hex * 1;
+          array = [...array, num];
+        }
 
-  }
-
+        setCountWinnersPerBracketRound(array);
+      }
+    } catch (error) {
+      console.log('error while getting Round');
+      console.log(error);
+    }
+  };
 
   const handleLotteryZIMAX = async (val) => {
     try {
-
       setInputValue(val);
-     // getCost();
+      // getCost();
       getTicketCost(val);
-
     } catch (error) {
       console.log(error);
     }
@@ -704,270 +686,251 @@ export default function DefiLottery() {
 
   const getTicketCost = async (valZMX) => {
     try {
-      
-        let _ZmzLotteryContract= await ZmzLotteryContract();
-      
-        const id = await _ZmzLotteryContract.viewCurrentLotteryId();
-        const values = await _ZmzLotteryContract.viewLottery(id);
+      let _ZmzLotteryContract = await ZmzLotteryContract();
 
-        if (valZMX == 0) {
-          setPercent(0);
-        } else {
-          let costForOne = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
-              values.discountDivisor,
-              values.priceTicketInZMX,
-              1
-            );
-      
-        costForOne = (costForOne.toString() / 10 ** 5);
-          let val = costForOne * 1;
-          setCostValue(val);
-          setCostUSDValue(val *  valZMX)
+      const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+      const values = await _ZmzLotteryContract.viewLottery(id);
 
-          let acutalCostForBuy = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
-              values.discountDivisor,
-              values.priceTicketInZMX,
-              valZMX
-            );
- 
+      if (valZMX == 0) {
+        setPercent(0);
+      } else {
+        let costForOne =
+          await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+            values.discountDivisor,
+            values.priceTicketInZMX,
+            1
+          );
 
-       
-          acutalCostForBuy = (acutalCostForBuy.toString() / 10 ** 5);
-          acutalCostForBuy = parseFloat(acutalCostForBuy).toFixed(4);
-          setActualCost(acutalCostForBuy);
+        costForOne = costForOne.toString() / 10 ** 5;
+        let val = costForOne * 1;
+        setCostValue(val);
+        setCostUSDValue(val * valZMX);
 
-          let percentage = values.discountDivisor / 10000;
-          percentage = parseFloat(percentage).toFixed(2);
-          percentage = (percentage * valZMX).toFixed(2);
+        let acutalCostForBuy =
+          await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+            values.discountDivisor,
+            values.priceTicketInZMX,
+            valZMX
+          );
 
-          setPercent(percentage);
-        
-          }
+        acutalCostForBuy = acutalCostForBuy.toString() / 10 ** 5;
+        acutalCostForBuy = parseFloat(acutalCostForBuy).toFixed(4);
+        setActualCost(acutalCostForBuy);
+
+        let percentage = values.discountDivisor / 10000;
+        percentage = parseFloat(percentage).toFixed(2);
+        percentage = (percentage * valZMX).toFixed(2);
+
+        setPercent(percentage);
+      }
     } catch (error) {
-      console.log("error while getting zimax balance", error);
+      console.log('error while getting zimax balance', error);
     }
   };
 
   const getCost = async () => {
     try {
-      
-        let _ZmzLotteryContract= await ZmzLotteryContract();
-      
-        const id = await _ZmzLotteryContract.viewCurrentLotteryId();
-        const values = await _ZmzLotteryContract.viewLottery(id);
+      let _ZmzLotteryContract = await ZmzLotteryContract();
 
-        if (valueInput == 0) {
-          setPercent(0);
-        } else {
-          let costForOne = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
-              values.discountDivisor,
-              values.priceTicketInZMX,
-              1
-            );
-      
-        costForOne = (costForOne.toString() / 10 ** 5);
-          let val = costForOne * 1;
-          setCostValue(val);
-          setCostUSDValue(val *  valueInput)
+      const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+      const values = await _ZmzLotteryContract.viewLottery(id);
 
-          let acutalCostForBuy = await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
-              values.discountDivisor,
-              values.priceTicketInZMX,
-              valueInput
-            );
- 
+      if (valueInput == 0) {
+        setPercent(0);
+      } else {
+        let costForOne =
+          await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+            values.discountDivisor,
+            values.priceTicketInZMX,
+            1
+          );
 
-       
-          acutalCostForBuy = (acutalCostForBuy.toString() / 10 ** 5);
-          acutalCostForBuy = parseFloat(acutalCostForBuy).toFixed(4);
-          setActualCost(acutalCostForBuy);
+        costForOne = costForOne.toString() / 10 ** 5;
+        let val = costForOne * 1;
+        setCostValue(val);
+        setCostUSDValue(val * valueInput);
 
-          let percentage = values.discountDivisor / 10000;
-          percentage = parseFloat(percentage).toFixed(2);
-          percentage = (percentage * valueInput).toFixed(2);
+        let acutalCostForBuy =
+          await _ZmzLotteryContract.calculateTotalPriceForBulkTickets(
+            values.discountDivisor,
+            values.priceTicketInZMX,
+            valueInput
+          );
 
-          setPercent(percentage);
-        
-          }
+        acutalCostForBuy = acutalCostForBuy.toString() / 10 ** 5;
+        acutalCostForBuy = parseFloat(acutalCostForBuy).toFixed(4);
+        setActualCost(acutalCostForBuy);
+
+        let percentage = values.discountDivisor / 10000;
+        percentage = parseFloat(percentage).toFixed(2);
+        percentage = (percentage * valueInput).toFixed(2);
+
+        setPercent(percentage);
+      }
     } catch (error) {
-      console.log("error while getting zimax balance", error);
+      console.log('error while getting zimax balance', error);
     }
   };
-
 
   const getReward = async () => {
     let ids = ticketIdsForClaim;
     let reward = 0;
-  
-    ids.map(async (item, index) => {
-      let _ZmzLotteryContract= await ZmzLotteryContract();
 
-      let rewardInfo = await _ZmzLotteryContract.viewRewardsForTicketId( lotteryID,item,countForBracket[index])
-      reward = parseFloat(reward) + parseFloat((rewardInfo) / (10 ** 5));
+    ids.map(async (item, index) => {
+      let _ZmzLotteryContract = await ZmzLotteryContract();
+
+      let rewardInfo = await _ZmzLotteryContract.viewRewardsForTicketId(
+        lotteryID,
+        item,
+        countForBracket[index]
+      );
+      reward = parseFloat(reward) + parseFloat(rewardInfo / 10 ** 5);
       reward = reward.toFixed(4);
       setTotalReward(reward);
     });
   };
   const claimReward = async () => {
     let tickets = ticketIdsForClaim.map((item) => {
-      return (item*1);
+      return item * 1;
     });
 
     let res;
-     boolTicketIdsForClaim.map((item) => {
+    boolTicketIdsForClaim.map((item) => {
       if (item == true) {
         res = true;
       } else {
         res = false;
       }
     });
-  
+
     try {
-
       if (res != true) {
+        let _ZmzLotteryContract = await ZmzLotteryContract();
 
-        let _ZmzLotteryContract= await ZmzLotteryContract();
-        
-        let _buy = await _ZmzLotteryContract.claimTickets(lotteryID, tickets, countForBracket)
+        let _buy = await _ZmzLotteryContract.claimTickets(
+          lotteryID,
+          tickets,
+          countForBracket
+        );
         let waitForTx = await _buy.wait();
         if (waitForTx) {
-        toast.success("You claim reward ");
-        } 
-         
-
+          toast.success('You claim reward ');
+        }
       } else {
-        toast.info("You already claimed the Reward");
-
+        toast.info('You already claimed the Reward');
       }
     } catch (error) {
-      toast.error("Transaction Failed");
+      toast.error('Transaction Failed');
     }
   };
 
   const getRewardText = (val) => {
-    const numberMatch = val + 1
-   
+    const numberMatch = val + 1;
+
     if (val === 5) {
-      return <strong>Match all  {numberMatch}</strong>
+      return <strong>Match all {numberMatch}</strong>;
     }
-    return   <strong>Match first  {numberMatch}</strong>
-  }
+    return <strong>Match first {numberMatch}</strong>;
+  };
 
   const getZmxRewards = (bracket) => {
-    const shareAsPercentage = (rewardsBreakdown[bracket])/(100)
-    const rewards = (rewardsLessTreasuryFee * shareAsPercentage);
-    const rewardsZmx = (rewards) / (100);
-    return   <CountUp end={rewardsZmx} /> 
-
-  }
-
+    const shareAsPercentage = rewardsBreakdown[bracket] / 100;
+    const rewards = rewardsLessTreasuryFee * shareAsPercentage;
+    const rewardsZmx = rewards / 100;
+    return <CountUp end={rewardsZmx} />;
+  };
 
   const getZmxRewardsUSD = (bracket) => {
-    const shareAsPercentage = (rewardsBreakdown[bracket])/(100)
-    const rewards = (rewardsLessTreasuryFee * shareAsPercentage);
-    const rewardsZmx = (rewards) / (100);
-    const rewardsUSD = (rewardsZmx) * (5);
-    return   <CountUp end={rewardsUSD} /> 
-
-  }
-
+    const shareAsPercentage = rewardsBreakdown[bracket] / 100;
+    const rewards = rewardsLessTreasuryFee * shareAsPercentage;
+    const rewardsZmx = rewards / 100;
+    const rewardsUSD = rewardsZmx * 5;
+    return <CountUp end={rewardsUSD} />;
+  };
 
   const getRewardTextRound = (val) => {
-    const numberMatch = val + 1
-   
+    const numberMatch = val + 1;
+
     if (val === 5) {
-      return <strong>Match all  {numberMatch}</strong>
+      return <strong>Match all {numberMatch}</strong>;
     }
-    return   <strong>Match first  {numberMatch}</strong>
-  }
+    return <strong>Match first {numberMatch}</strong>;
+  };
 
   const getZmxRewardsRound = (bracket) => {
-    const shareAsPercentage = (rewardsBreakdownRound[bracket])/(100)
-    const rewards = (rewardsLessTreasuryFeeRound * shareAsPercentage);
-    const rewardsZmx = (rewards) / (100);
-    return   <CountUp end={rewardsZmx} /> 
-
-  }
-
+    const shareAsPercentage = rewardsBreakdownRound[bracket] / 100;
+    const rewards = rewardsLessTreasuryFeeRound * shareAsPercentage;
+    const rewardsZmx = rewards / 100;
+    return <CountUp end={rewardsZmx} />;
+  };
 
   const getZmxRewardsUSDRound = (bracket) => {
-    const shareAsPercentage = (rewardsBreakdownRound[bracket])/(100)
-    const rewards = (rewardsLessTreasuryFeeRound * shareAsPercentage);
-    const rewardsZmx = (rewards) / (100);
-    const rewardsUSD = (rewardsZmx) * (5);
-    return   <CountUp end={rewardsUSD} /> 
-
-  }
+    const shareAsPercentage = rewardsBreakdownRound[bracket] / 100;
+    const rewards = rewardsLessTreasuryFeeRound * shareAsPercentage;
+    const rewardsZmx = rewards / 100;
+    const rewardsUSD = rewardsZmx * 5;
+    return <CountUp end={rewardsUSD} />;
+  };
 
   const getZmxRewardsRoundWinner = (bracket) => {
-    const shareAsPercentage = (rewardsBreakdownRound[bracket])/(100)
-    const rewards = (rewardsLessTreasuryFeeRound * shareAsPercentage);
-    const rewardsZmx = (rewards) / (100);
+    const shareAsPercentage = rewardsBreakdownRound[bracket] / 100;
+    const rewards = rewardsLessTreasuryFeeRound * shareAsPercentage;
+    const rewardsZmx = rewards / 100;
     let zmxWinnerEach;
-    if(countWinnersPerBracketRound[bracket] !== 0){
-    let zmxEach = (rewardsZmx) / (countWinnersPerBracketRound[bracket])
-    zmxWinnerEach = zmxEach.toFixed(4)
+    if (countWinnersPerBracketRound[bracket] !== 0) {
+      let zmxEach = rewardsZmx / countWinnersPerBracketRound[bracket];
+      zmxWinnerEach = zmxEach.toFixed(4);
     } else {
-      zmxWinnerEach = 0
+      zmxWinnerEach = 0;
     }
 
-    return   zmxWinnerEach;
-
-  }
-
-
+    return zmxWinnerEach;
+  };
 
   const handleApproveZMZ = async () => {
- 
     try {
       let _ZmzContract = await ZmzContract();
-      
+
       let _approve = await _ZmzContract.approve(
         ZMZ_LOTTERY_CONTRACT_ADDRESS,
         ethers.utils.parseEther(costUSDValue.toString())
       );
       let waitForTx = await _approve.wait();
       if (waitForTx) {
-   
         setButtonStatus('buy');
         toast.success('Approved successfull.');
-        let array=[];
-          for (let i = 1; i <= valueInput; i++) {
-            let num = random();
-            array = [...array, num];
-          }
-          setLotteryNumbers(array);
-
+        let array = [];
+        for (let i = 1; i <= valueInput; i++) {
+          let num = random();
+          array = [...array, num];
+        }
+        setLotteryNumbers(array);
       }
     } catch (error) {
       console.log(error);
     }
   };
   const handleBuyZMX = async () => {
-
-
     try {
-    let _ZmzLotteryContract= await ZmzLotteryContract();
-    if (valueInput <= 0) {
-      return toast.error('Value should be positive.');
-    }
-    const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+      let _ZmzLotteryContract = await ZmzLotteryContract();
+      if (valueInput <= 0) {
+        return toast.error('Value should be positive.');
+      }
+      const id = await _ZmzLotteryContract.viewCurrentLotteryId();
 
-    let array=[];
-          for (let i = 1; i <= valueInput; i++) {
-            let num = random();
-            array = [...array, num];
-          }
-          setLotteryNumbers(array);
-      let _buy = await _ZmzLotteryContract.buyTickets(id, array)
+      let array = [];
+      for (let i = 1; i <= valueInput; i++) {
+        let num = random();
+        array = [...array, num];
+      }
+      setLotteryNumbers(array);
+      let _buy = await _ZmzLotteryContract.buyTickets(id, array);
       let waitForTx = await _buy.wait();
       if (waitForTx) {
         toast.success('Transaction successfull.');
       } else {
         toast.error('execution reverted: Lottery is over');
-      }  
-      
-      
+      }
     } catch (error) {
       toast.error('execution reverted: Lottery is over');
       console.log(error);
@@ -976,8 +939,8 @@ export default function DefiLottery() {
 
   return (
     <>
-       <ToastContainer />
-     {showConnectWallet && (
+      <ToastContainer />
+      {showConnectWallet && (
         <MainModal
           title={'My Wallet'}
           handleClose={() => setShowConnectWallet(false)}
@@ -995,7 +958,7 @@ export default function DefiLottery() {
         <BuyTicket>
           <div className="buyTicketInner">
             <h2>
-              Buy Tickets{' '}
+              Buy Tickets
               <svg
                 onClick={toggleBuyTicketBox}
                 xmlns="http://www.w3.org/2000/svg"
@@ -1009,66 +972,65 @@ export default function DefiLottery() {
               </svg>
             </h2>
             <h3>
-              Buy:{' '}
+              Buy:
               <strong>
                 Tickets <img src={star5} alt="" />
               </strong>
             </h3>
             <div className="buyBmax">
-              <input 
+              <input
                 type="text"
                 pattern="\d*"
                 placeholder="0000"
-                    maxLength={3}
-                    value={valueInput}
+                maxLength={3}
+                value={valueInput}
                 onChange={(e) => handleLotteryZIMAX(e.target.value)}
               />
               <p>{costUSDValue} ZMX </p>
             </div>
             <h3>
-              Cost (ZMX) <span>{costValue} ZMX</span> 
+              Cost (ZMX) <span>{costValue} ZMX</span>
             </h3>
             <h3>
-               Bulk discount
-              <span>{percent}% </span> 
+              Bulk discount
+              <span>{percent}% </span>
             </h3>
             <h4>
               You pay
-              <strong>{actualCost}ZMX</strong> 
+              <strong>{actualCost}ZMX</strong>
             </h4>
             {window.web3 ? (
               <>
-              {buttonStatus === 'approve' ? (
-              <button onClick={handleApproveZMZ}>{t('APPROVE')}</button>
+                {buttonStatus === 'approve' ? (
+                  <button onClick={handleApproveZMZ}>{t('APPROVE')}</button>
+                ) : (
+                  <button onClick={handleBuyZMX}>{t('BUY TICKETS')}</button>
+                )}
+              </>
             ) : (
-              <button onClick={handleBuyZMX}>{t('BUY TICKETS')}</button>
+              <ConnectWallets onClick={handleConnectWallet}>
+                <button>{t('Connect wallet')}</button>
+              </ConnectWallets>
             )}
-               </>
-               ) : (
-            <ConnectWallets onClick={handleConnectWallet}>
-              <button>{t('Connect wallet')}</button>
-            </ConnectWallets>
-             )}
-             <NumberContainer>
-                {lotteryNumber &&
-                  lotteryNumber.map((item, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      pattern="\d*"
-                      maxLength={7}
-                      placeholder="123456"
-                      className="input"
-                      value={item}
-                    />
-                  ))}
-              </NumberContainer>
+            <NumberContainer>
+              {lotteryNumber &&
+                lotteryNumber.map((item, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    pattern="\d*"
+                    maxLength={7}
+                    placeholder="123456"
+                    className="input"
+                    value={item}
+                  />
+                ))}
+            </NumberContainer>
             <h5>
               "Buy Instantly" chooses random numbers, with no duplicates among
               your tickets. Prices are set before each round starts, equal to $5
               at that time. Purchases are final.
             </h5>
-            
           </div>
         </BuyTicket>
       )}
@@ -1105,37 +1067,45 @@ export default function DefiLottery() {
       </HeroArea>
       <TicketNow>
         <h2>Get your tickets now!</h2>
-         <p className="ticketClock">  
-      {lotteryEndTime !== 0 ? <Countdown
+        <p className="ticketClock">
+          {lotteryEndTime !== 0 ? (
+            <Countdown
               date={Date.now() + 60000 * lotteryEndTime}
               renderer={renderer}
-      /> : <p style={{color: '#fdc122', fontWeight: 700, fontSize: 32}}>00H : 00M</p>}   
+            />
+          ) : (
+            <span style={{ color: '#fdc122', fontWeight: 700, fontSize: 32 }}>
+              00h : 00m
+            </span>
+          )}
           &nbsp;&nbsp;&nbsp;&nbsp; until the draw
-        
-        </p> 
+        </p>
         <div className="ticketMainArea">
           <div className="ticketHeading">
             Next Draw <span>#{lotteryID} </span>
           </div>
           <div className="ticketBody">
             <h2>
-              Prize Pot{' '}
-              <span>
-               <strong>{amount.toFixed(2)} ZMX</strong>
-              </span>
+              <span>Prize Pot</span>
+              <strong>{amount.toFixed(2)} ZMX</strong>
             </h2>
             <h2>
-              Your Tickets{' '} 
-              <span>
-               <strong>You Bought {lotteryRoundPersonalTicketLength} tickets </strong>
-              </span>
-           {/*   <button onClick={toggleViewTicketBox}>View Tickets</button>
+              <span>Your Tickets</span>
+              <strong>
+                You Bought {lotteryRoundPersonalTicketLength} tickets
+              </strong>
+              {/*   <button onClick={toggleViewTicketBox}>View Tickets</button>
               <button onClick={toggleBuyTicketBox}>Buy Tickets</button>  */}
-           { lotteryRoundPersonalTicketLength !== 0 ? ( 
-           <button onClick={toggleViewTicketBox}>View Tickets</button> ) : '' }
-           {lotteryEndTime !== 0 ?(
-            <button onClick={toggleBuyTicketBox}>Buy Tickets</button>
-            ) : ''}
+              {lotteryRoundPersonalTicketLength !== 0 ? (
+                <button onClick={toggleViewTicketBox}>View Tickets</button>
+              ) : (
+                ''
+              )}
+              {lotteryEndTime !== 0 ? (
+                <button onClick={toggleBuyTicketBox}>Buy Tickets</button>
+              ) : (
+                ''
+              )}
             </h2>
           </div>
           <div className="ticketFooter">
@@ -1146,66 +1116,53 @@ export default function DefiLottery() {
                   Current prizes up for grabs:
                 </p>
                 <ul>
-                {rewardBrackets &&
-                  rewardBrackets.map((item, index) => (
-                       
-                    <>
-
+                  {rewardBrackets &&
+                    rewardBrackets.map((item, index) => (
+                      <>
+                        <li>
+                          {getRewardText(item)}
+                          <p>{getZmxRewards(item)} ZMX</p>
+                        </li>
+                      </>
+                    ))}
                   <li>
-                  
-                    {getRewardText(item)}
-                    <p>
-                
-                  {getZmxRewards(item)} ZMX
-                    </p>
-                   
-                  </li>
-                  </>
-                  ))}
-                  <li>
-                    <strong className="red-burn">Burn</strong>{' '}
+                    <strong className="red-burn">Burn</strong>
                     <p>
                       <CountUp end={zmxToBurn} /> ZMX
                     </p>
-                    <span>
-                   
-                    </span>
-                    </li>
-                  </ul>
-               
+                    <span></span>
+                  </li>
+                </ul>
               </div>
             ) : (
               ''
             )}
 
-{lotteryDetails6 ? (
+            {lotteryDetails6 ? (
               <div className="ticket-footer-details">
                 <NumberContainer>
-                <p  style={{ display: "flex" }}>
-                  YOUR TICKETS:
-                </p>
-                <p
-                
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                  mb="3px"
-                >
-                  <span style={{ paddingLeft: 20 }}>💸 Total tickets:</span>
-                  <span>{lotteryRoundTicketLength}</span>
-                </p>
-                {lotteryRoundNumber &&
-                  lotteryRoundNumber.map((item, index) => (
-                    <div>
-                    <p style={{ fontSize: 12, margin: 0 }}>
-                        #{attachZeroNum(index + 1, 3)}
-                      </p>
-                      <p id="input">{removeOneNum(item)}</p>
-                </div>
-                  ))}
-              </NumberContainer>
+                  <p style={{ display: 'flex' }}>YOUR TICKETS:</p>
+                  <p
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                    }}
+                    mb="3px"
+                  >
+                    <span style={{ paddingLeft: 20 }}>💸 Total tickets:</span>
+                    <span>{lotteryRoundTicketLength}</span>
+                  </p>
+                  {lotteryRoundNumber &&
+                    lotteryRoundNumber.map((item, index) => (
+                      <div>
+                        <p style={{ fontSize: 12, margin: 0 }}>
+                          #{attachZeroNum(index + 1, 3)}
+                        </p>
+                        <p id="input">{removeOneNum(item)}</p>
+                      </div>
+                    ))}
+                </NumberContainer>
               </div>
             ) : (
               ''
@@ -1252,62 +1209,80 @@ export default function DefiLottery() {
         </div>
       </TicketNow>
       <TicketWallet>
-        
         {window.web3 ? (
-            inputField  >= lotteryCurrentID  ? (
+          inputField >= lotteryCurrentID ? (
             <>
-          <button
-            onClick={() =>
-              toast.info("Oops!  Winning Number yet to publish")
-            }
-          >
-            CLAIM PRIZES
-          </button>
-          </>
+              <button
+                onClick={() =>
+                  toast.info('Oops!  Winning Number yet to publish')
+                }
+              >
+                CLAIM PRIZES
+              </button>
+              <ul>
+                <li>
+                  <img src="/static/media/ticket-l.7506225c.png" alt="star1" />
+                </li>
+                <li>
+                  <img src="/static/media/ticket-r.cbdaa86c.png" alt="star1" />
+                </li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <button onClick={toggleDetails4}>CLAIM PRIZES</button>
+              <ul>
+                <li>
+                  <img src="/static/media/ticket-l.7506225c.png" alt="star1" />
+                </li>
+                <li>
+                  <img src="/static/media/ticket-r.cbdaa86c.png" alt="star1" />
+                </li>
+              </ul>
+            </>
+          )
         ) : (
-          
           <>
-          <button  onClick={toggleDetails4}>CLAIM PRIZES</button>
-        </>
-        )
-              
-               ) : (
-                <>
-                <h3>
-          Connect your wallet <br /> to check if you've won!
-        </h3>
+            <h3>
+              Connect your wallet <br /> to check if you've won!
+            </h3>
             <ConnectWallets onClick={handleConnectWallet}>
               <button>{t('Connect wallet')}</button>
+              <ul>
+                <li>
+                  <img src="/static/media/ticket-l.7506225c.png" alt="star1" />
+                </li>
+                <li>
+                  <img src="/static/media/ticket-r.cbdaa86c.png" alt="star1" />
+                </li>
+              </ul>
             </ConnectWallets>
-            </>
-             )}
-      
+          </>
+        )}
+
         {lotteryDetails4 ? (
-                  <div className="ticket-footer-details">
-                    
-                    {winnerCount && winnerCount > 0 ? (
-            
+          <div className="ticket-footer-details">
+            {winnerCount && winnerCount > 0 ? (
               <NumberContainer>
-                <p  style={{ display: "flex" }}>
-                  YOUR TICKETS:
-                </p>
+                <p style={{ display: 'flex' }}>YOUR TICKETS:</p>
                 <p
-                
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    width: '100%',
                   }}
                   mb="3px"
                 >
                   <span style={{ paddingLeft: 220 }}>💸 Total tickets:</span>
-                  <span style={{ paddingLeft: 220 }}>{lotteryTicketLength}</span>
+                  <span style={{ paddingLeft: 220 }}>
+                    {lotteryTicketLength}
+                  </span>
                 </p>
                 <p
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    width: '100%',
                   }}
                   mb="3px"
                 >
@@ -1316,92 +1291,77 @@ export default function DefiLottery() {
                 </p>
                 {lotteryWinnerNumber &&
                   lotteryWinnerNumber.map((item, index) => (
-                    <div>  
-                    <p style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                  mb="3px">
-                      <span style={{ paddingLeft: 220 }}>#{attachZeroNum(index + 1, 3)}</span>  
-                      <span style={{ paddingLeft: 420 }}>{item}</span>
+                    <div>
+                      <p
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                        }}
+                        mb="3px"
+                      >
+                        <span style={{ paddingLeft: 220 }}>
+                          #{attachZeroNum(index + 1, 3)}
+                        </span>
+                        <span style={{ paddingLeft: 420 }}>{item}</span>
                       </p>
-                  </div> 
+                    </div>
                   ))}
-                   
-                   <span style={{ paddingLeft: 420 }}> <button onClick={toggleDetails31}>Collect Prizes</button></span>
-                  
-                </NumberContainer>
-              
-          ) : (
-            <div>
-              <p
-                
-              >
-                Are you a winner?
-              </p>
-              
-                  <p   >
-                    No prizes to collect... Better luck next time!
-                  </p>
 
-                
+                <span style={{ paddingLeft: 420 }}>
+                  <button onClick={toggleDetails31}>Collect Prizes</button>
+                </span>
+              </NumberContainer>
+            ) : (
+              <div>
+                <p>Are you a winner?</p>
+
+                <p>No prizes to collect... Better luck next time!</p>
+
                 <img
-          src={badgeTicket}
-          onClick={toggleBuyTicketBox}
-          className="badgeTicket"
-          alt="badgeTicket"
-        />
-                
-             
-            </div>
-          )}
-                  </div>
-                ) : (
-                  ''
-                )}
+                  src={badgeTicket}
+                  onClick={toggleBuyTicketBox}
+                  className="badgeTicket"
+                  alt="badgeTicket"
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          ''
+        )}
 
-                
-{lotteryDetails31 ? (
-                  <div className="ticket-footer-details">
-                    <p>
-            Collect Winnings 
-                    </p>
-                    <p>
-                    YOU WON! </p> 
-                    <p
-                
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  fontWeight: "700",
-                  letterSpacing: 1.4,
-                }}
-              >
-               {totalReward} ZMX!
-                <span>🎁</span>
-              </p>
-              <p
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-               
-              >
-                Round #{lotteryID}
-              </p>
-                  
-              
-              <button onClick={() => claimReward()}>Claim</button>
-            
-                  
-                  </div>
-                ) : (
-                  ''
-                )}
+        {lotteryDetails31 ? (
+          <div className="ticket-footer-details">
+            <p>Collect Winnings</p>
+            <p>YOU WON! </p>
+            <p
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+                fontWeight: '700',
+                letterSpacing: 1.4,
+              }}
+            >
+              {totalReward} ZMX!
+              <span>🎁</span>
+            </p>
+            <p
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+              }}
+            >
+              Round #{lotteryID}
+            </p>
 
+            <button onClick={() => claimReward()}>Claim</button>
+          </div>
+        ) : (
+          ''
+        )}
       </TicketWallet>
       <TicketFinished>
         <h2>Finished Rounds</h2>
@@ -1421,61 +1381,73 @@ export default function DefiLottery() {
         </div>
         <div className="roundArea">
           {!lotteryRound && (
-            <div className="round" >
-              <h2>
-                Round  <span>#{lotteryID}</span>  &nbsp;&nbsp;&nbsp;&nbsp;   {/*Winning Number <p style={{ fontSize: "32px" }}> {winnerNumber} </p> */}
-              </h2>
-              
-              <h4
-              onClick={() => {
-                handleMinus();
-              }}
-              style={{ cursor: "pointer" }}
-            >{`<`}</h4>
-              <input 
-                type="text"
-                pattern="\d*"
-                placeholder="0000"
-                style={{
-                  width: "60px",
-                  backgroundColor: "#fff",
-                  borderRadius: "5px",
-                  padding: "0px 4px",
-                  fontSize: 26,
-                  fontWeight: "600",
-                }}
-                onChange={(e) => {
+            <div className="round">
+              <div className="round-number-area">
+                <h2>
+                  Round <span>#{lotteryID}</span>
+                </h2>
+
+                <div className="round-number-number">
+                  <h4
+                    onClick={() => {
+                      handleMinus();
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-arrow-left-short"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
+                      />
+                    </svg>
+                  </h4>
+                  <input
+                    type="text"
+                    pattern="\d*"
+                    placeholder="0000"
+                    onChange={(e) => {
                       handleLotteryOnChange(e);
-                }}
-                  maxLength={3}
-                  value={attachZero(inputField)}
-              />
-            
-            <h4
-              onClick={() => {
-                handlePlus();
-              }}
-              style={{ cursor: "pointer" }}
-            >{`>`}</h4>
-            <h3
-              onClick={() => {
-                firstLotteryId();
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              First
-            </h3>
-            <h3
-              onClick={() => {
-                lastLotteryId();
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              Last
-            </h3>
-              <div className="round-number" >
-             <h2> Winning Number <span style={{ fontSize: "32px" }}> {winnerNumber} </span> </h2>
-            { /*  
+                    }}
+                    maxLength={3}
+                    value={attachZero(inputField)}
+                  />
+
+                  <h4
+                    onClick={() => {
+                      handlePlus();
+                    }}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-arrow-right-short"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+                      />
+                    </svg>
+                  </h4>
+                </div>
+              </div>
+
+              <div className="round-number">
+                <h2>
+                  Winning Number
+                  <span style={{ fontSize: '32px' }}>{winnerNumber}</span>
+                </h2>
+                {/*  
                 {  inputField  >= lotteryCurrentID  ? (
                   <>
                 <button
@@ -1492,9 +1464,9 @@ export default function DefiLottery() {
               )}
               */}
               </div>
-              
+
               <div className="ticketFooter">
-             {/*  {lotteryDetails2 ? (
+                {/*  {lotteryDetails2 ? (
                   <div className="ticket-footer-details">
                     <p>
                   Round  <strong>{lotteryID}</strong>
@@ -1608,45 +1580,39 @@ export default function DefiLottery() {
                   ''
                 )}  */}
 
-{lotteryDetails21 ? (
-              <div className="ticket-footer-details">
-                <p>
-                  Match the winning number in the same order to share prizes.
-                </p>
-                <ul>
-                {rewardBracketsRound &&
-                  rewardBracketsRound.map((item, index) => (
-                       
-                    <>
-
-                  <li>
-                  
-                    {getRewardTextRound(item)}
+                {lotteryDetails21 ? (
+                  <div className="ticket-footer-details">
                     <p>
-                 
-                  {getZmxRewardsRound(item)} ZMX
+                      Match the winning number in the same order to share
+                      prizes.
                     </p>
-                   <p> {getZmxRewardsRoundWinner(item)} ZMX  each  </p>
-                    <p>{countWinnersPerBracketRound[item]} Winning Tickets</p> 
-                
-                  </li>
-                  </>
-                  ))}
-                  <li>
-                    <strong className="red-burn">Burn</strong>{' '}
-                    <p>
-                      <CountUp end={zmxToBurnRound} /> ZMX
-                    </p>
-                    <span>
-                   
-                    </span>
-                    </li>
-                  </ul>
-               
-              </div>
-            ) : (
-              ''
-            )}
+                    <ul>
+                      {rewardBracketsRound &&
+                        rewardBracketsRound.map((item, index) => (
+                          <>
+                            <li>
+                              {getRewardTextRound(item)}
+                              <p>{getZmxRewardsRound(item)} ZMX</p>
+                              <p> {getZmxRewardsRoundWinner(item)} ZMX each </p>
+                              <p>
+                                {countWinnersPerBracketRound[item]} Winning
+                                Tickets
+                              </p>
+                            </li>
+                          </>
+                        ))}
+                      <li>
+                        <strong className="red-burn">Burn</strong>
+                        <p>
+                          <CountUp end={zmxToBurnRound} /> ZMX
+                        </p>
+                        <span></span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  ''
+                )}
 
                 <button>
                   {lotteryDetails21 ? (
@@ -1690,146 +1656,149 @@ export default function DefiLottery() {
           )}
           {lotteryRound && (
             <div className="round-history">
-              <h2>Rounds <span>#{window.web3 ?  lotteryID : '' }</span>  &nbsp;&nbsp;&nbsp;&nbsp; </h2>
+              <h2>
+                Rounds <span>#{window.web3 ? lotteryID : ''}</span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+              </h2>
               <div className="ticket-footer-details">
-              
-              Winning Number <p style={{ fontSize: "32px" }}> {winnerNumber} </p>
-             
-             {window.web3 ? (
-              <>
-             <ButtonContainer>
-               
-              {  inputField  >= lotteryCurrentID  ? (
-                <>
+                Winning Number
+                <p style={{ fontSize: '32px' }}> {winnerNumber} </p>
+                {window.web3 ? (
+                  <>
+                    <ButtonContainer>
+                      {inputField >= lotteryCurrentID ? (
+                        <>
+                          <button
+                            onClick={() =>
+                              toast.info('Oops!  Winning Number yet to publish')
+                            }
+                          >
+                            YOUR TICKETS
+                          </button>
+                        </>
+                      ) : (
+                        <button onClick={toggleDetails2}>YOUR TICKETS</button>
+                      )}
+                    </ButtonContainer>
+                    {lotteryDetails2 ? (
+                      <div className="ticket-footer-details">
+                        <p>
+                          Round <strong>{lotteryID}</strong>
+                        </p>
+                        <p>WINNING NUMBER: </p>
+                        {winnerNumber
+                          .toString()
+                          .split('')
+                          .map((item, index) => (
+                            <Number key={index}>{item}</Number>
+                          ))}
+                        <NumberContainer>
+                          <p style={{ display: 'flex' }}>YOUR TICKETS:</p>
+                          <p
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                            }}
+                            mb="3px"
+                          >
+                            <span style={{ paddingLeft: 20 }}>
+                              💸 Total tickets:
+                            </span>
+                            <span>{lotteryTicketLength}</span>
+                          </p>
+                          <p
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                            }}
+                            mb="3px"
+                          >
+                            <span style={{ paddingLeft: 20 }}>
+                              🎁 Winning tickets:
+                            </span>
+                            <span>{winnerCount}</span>
+                          </p>
+                          {lotteryWinnerNumber &&
+                            lotteryWinnerNumber.map((item, index) => (
+                              <div>
+                                <p
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    width: '100%',
+                                  }}
+                                  mb="3px"
+                                >
+                                  <span style={{ paddingLeft: 20 }}>
+                                    #{attachZeroNum(index + 1, 3)}
+                                  </span>
+                                  <span style={{ paddingLeft: 220 }}>
+                                    {item}
+                                  </span>
+                                </p>
+                              </div>
+                            ))}
+                        </NumberContainer>
+                        <ButtonContainer>
+                          {winnerCount && winnerCount > 0 ? (
+                            <button onClick={toggleDetails3}>
+                              Collect Prizes
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                toast.info(
+                                  "Oops! you  don't have any winning Ticket"
+                                )
+                              }
+                            >
+                              Collect Prizes
+                            </button>
+                          )}
+                        </ButtonContainer>
+                      </div>
+                    ) : (
+                      ''
+                    )}
 
-              <button
-                onClick={() =>
-                  toast.info("Oops!  Winning Number yet to publish")
-                }
-              >
-                YOUR TICKETS
-              </button>
-              </>
-            ) : (
-              
-              <button onClick={toggleDetails2}>YOUR TICKETS</button>
-            )}
-             </ButtonContainer>
-             {lotteryDetails2 ? (
-                  <div className="ticket-footer-details">
-                    <p>
-                  Round  <strong>{lotteryID}</strong>
-                    </p>
-                    <p>
-                    WINNING NUMBER: </p> {winnerNumber
-                  .toString()
-                  .split("")
-                  .map((item, index) => (
-                    <Number key={index}>{item}</Number>
-                  ))}
+                    {lotteryDetails3 ? (
+                      <div className="ticket-footer-details">
+                        <p>Collect Winnings</p>
+                        <p>YOU WON! </p>
+                        <p
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            fontWeight: '700',
+                            letterSpacing: 1.4,
+                          }}
+                        >
+                          <span>{totalReward} ZMX!</span>
+                          <span>🎁</span>
+                        </p>
+                        <p
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          Round #{lotteryID}
+                        </p>
 
-                  <NumberContainer>
-                <p  style={{ display: "flex" }}>
-                  YOUR TICKETS:
-                </p>
-                <p
-                
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                  mb="3px"
-                >
-                  <span style={{ paddingLeft: 20 }}>💸 Total tickets:</span>
-                  <span>{lotteryTicketLength}</span>
-                </p>
-                <p
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                  mb="3px"
-                >
-                  <span style={{ paddingLeft: 20 }}>🎁 Winning tickets:</span>
-                  <span>{winnerCount}</span>
-                </p>
-                {lotteryWinnerNumber &&
-                  lotteryWinnerNumber.map((item, index) => (
-                    <div>  
-                    <p style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                  mb="3px">
-                      <span style={{ paddingLeft: 20 }}>#{attachZeroNum(index + 1, 3)}</span>  
-                      <span style={{ paddingLeft: 220 }}>{item}</span>
-                      </p>
-                  </div>   
-                  ))}
-              </NumberContainer>
-              <ButtonContainer>
-              {winnerCount && winnerCount > 0 ? (
-                <button onClick={toggleDetails3}>Collect Prizes</button>
-              ) : (
-                <button
-                  onClick={() =>
-                    toast.info("Oops! you  don't have any winning Ticket")
-                  }
-                >
-                  Collect Prizes
-                </button>
-              )}
-              </ButtonContainer>
-                  
-                  </div>
+                        <ButtonContainer>
+                          <button onClick={() => claimReward()}>Claim</button>
+                        </ButtonContainer>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </>
                 ) : (
-                  ''
-                )}
-
-{lotteryDetails3 ? (
-                  <div className="ticket-footer-details">
-                    <p>
-            Collect Winnings 
-                    </p>
-                    <p>
-                    YOU WON! </p> 
-                    <p
-                
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  fontWeight: "700",
-                  letterSpacing: 1.4,
-                }}
-              >
-                <span>{totalReward} ZMX!</span>
-                <span>🎁</span>
-              </p>
-              <p
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-               
-              >
-                Round #{lotteryID}
-              </p>
-                  
-              <ButtonContainer>
-              <button onClick={() => claimReward()}>Claim</button>
-            </ButtonContainer>
-                  
-                  </div>
-                ) : (
-                  ''
-                )}
-            </>
-            /*    <>
+                  /*    <>
                 <NumberContainer>
                 <p  style={{ display: "flex" }}>
                   YOUR TICKETS:
@@ -1857,14 +1826,15 @@ export default function DefiLottery() {
                   ))}
               </NumberContainer>
                   </>  */
-                  ) : (
-                    <>
-           <p>Connect your wallet to check your history</p>
-              <ConnectWallets onClick={handleConnectWallet}>
-              <button>{t('Connect wallet')}</button>
-            </ConnectWallets>
-                    </>
-                  )}
+                  <>
+                    <p>Connect your wallet to check your history</p>
+                    <ConnectWallets onClick={handleConnectWallet}>
+                      <button className="ticket-footer-details-button">
+                        {t('Connect wallet')}
+                      </button>
+                    </ConnectWallets>
+                  </>
+                )}
               </div>
               <div className="round-footer">
                 <p>Only showing data for Lottery V2</p>

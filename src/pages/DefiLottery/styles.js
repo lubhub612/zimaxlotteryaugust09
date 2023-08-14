@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HeroArea = styled.div`
-  background: linear-gradient(rgb(0, 0, 209) 0%, rgb(255, 255, 2) 50%);
+  background: linear-gradient(rgb(118, 69, 217) 0%, rgb(69, 42, 122) 100%);
   text-align: center;
   color: #fff;
   padding: 90px 10px;
@@ -124,7 +124,7 @@ export const HeroArea = styled.div`
   }
 `;
 export const TicketNow = styled.div`
-  background: linear-gradient(rgb(0, 0, 209) 0%, rgb(255, 255, 2) 100%);
+  background: linear-gradient(rgb(118, 69, 217) 0%, rgb(81, 33, 177) 100%);
   padding: 70px 10px;
   text-align: center;
 
@@ -177,16 +177,14 @@ export const TicketNow = styled.div`
     display: flex;
     gap: 80px;
   }
-
   .ticketBody h2 span {
-    color: #9a6bff;
-    font-size: 40px;
+    min-width: 120px;
   }
-
-  .ticketBody h2 span strong {
+  .ticketBody h2 strong {
     display: block;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 16px;
+    color: #9a6bff;
   }
 
   .ticketBody h2 button {
@@ -319,7 +317,7 @@ export const TicketWallet = styled.div`
   }
 `;
 export const TicketFinished = styled.div`
-  background: linear-gradient(rgb(0, 0, 209) 0%, rgb(255, 255, 2) 100%);
+  background: linear-gradient(rgb(67, 69, 117) 0%, rgb(102, 87, 141) 100%);
   padding: 50px 10px;
   text-align: center;
   color: #fff;
@@ -327,6 +325,46 @@ export const TicketFinished = styled.div`
   .roundArea {
     max-width: 800px;
     margin: auto;
+  }
+  .ticket-footer-details-button {
+    background: #20c7d4;
+    border: none;
+    color: #b8add3;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 40px;
+    text-transform: capitalize;
+    cursor: pointer;
+  }
+  .round-number-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .round-number-number {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 30px;
+  }
+  .round-number-number h4 svg {
+    height: auto;
+    width: 25px;
+  }
+  .round-number-number input {
+    width: 100px;
+    background: transparent;
+    border: 1px solid #02ffff;
+    color: #02ffff;
+    text-align: center;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 5px;
+  }
+
+  .round-number-number h4 {
+    color: #02ffff;
   }
   .ticketFooter button {
     background: #27262c;
@@ -470,7 +508,10 @@ export const TicketFinished = styled.div`
     justify-content: space-between;
     border-bottom: 1px solid #383242;
   }
-
+  .round-number h2 {
+    padding: 0;
+    text-align: left;
+  }
   .round-number ul {
     display: flex;
     gap: 5px;
@@ -767,14 +808,12 @@ export const BuyTicket = styled.div`
   }
 `;
 
-
 export const ConnectWallets = styled.span`
   button {
     background: #1fc7d4 !important;
     color: #000 !important;
   }
 `;
-
 
 export const NumberContainer = styled.div`
   display: flex;
@@ -798,7 +837,6 @@ export const NumberContainer = styled.div`
   }
 `;
 
-
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -811,7 +849,7 @@ export const Container = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
   h2 {
-    font-family: "Ropa Sans";
+    font-family: 'Ropa Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -830,7 +868,7 @@ export const Container = styled.div`
     background: #ffffff;
     border: 1px solid #8e8e8e;
     border-radius: 5px;
-    font-family: "Ropa Sans";
+    font-family: 'Ropa Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -864,7 +902,7 @@ export const Number = styled.h3`
   margin: 0 2px 15px;
   color: white;
   -webkit-text-stroke: 0.1px black;
-  font-family: "Ropa Sans";
+  font-family: 'Ropa Sans';
   font-size: 25px;
   font-weight: ;
   @media screen and (max-width: 768px) {
@@ -881,7 +919,7 @@ export const ButtonContainer = styled.div`
   border-radius: 5px;
   margin: 0px 40px 20px 40px;
   button {
-    font-family: "Ropa Sans";
+    font-family: 'Ropa Sans';
     font-style: normal;
 
     font-weight: 400;
@@ -895,5 +933,3 @@ export const ButtonContainer = styled.div`
     padding: 5px 20px;
   }
 `;
-
-
