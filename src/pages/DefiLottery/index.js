@@ -40,15 +40,18 @@ import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import bigInt from 'big-integer';
 import BigNumber from 'big-number';
-
+const config = require("../../config");
+const networkName = process.env.NETWORK_NAME;
+//const { parseUnits } = require("@ethersproject/units");
 
 //const ZMZ_CONTRACT_ADDRESS = '0x3fF71Dce2dbCd2E60907EA8811C4C2520b9f70e8';
 //const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x9579e3E8cC055e211C661209fa5bD980bED7E152';
 
 
 const ZMZ_CONTRACT_ADDRESS = '0xA080dCB3350d99320Bf67A997D7f876284727ec7';
-const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x9E3c8ECeE958Eb8A5A5b871792840CCb3BdB5CC5';
-
+//const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x9E3c8ECeE958Eb8A5A5b871792840CCb3BdB5CC5';
+const ZMZ_LOTTERY_CONTRACT_ADDRESS = '0x42458cCF9840941406EAB0181A62F7d29175B048';
+//0x42458cCF9840941406EAB0181A62F7d29175B048
 
 
 export default function DefiLottery() {
@@ -119,7 +122,7 @@ export default function DefiLottery() {
   const [amountRound, setRoundAmount] = useState(0.0);
   const [lotteryRounPersonaldNumber, setLotteryRoundPersonalNumbers] = useState([]);
   const [lotteryRoundPersonalTicketLength, setTotalRoundPersonalTicketsLength] = useState(0);
-
+  const [currentLotteryID, setCurrentLotteryID] = useState(0);
 
   const { wallet } = useCustomWallet();
   
@@ -131,6 +134,7 @@ export default function DefiLottery() {
   const handleConnectWallet = () => {
     setIsMenu(false);
     setShowConnectWallet(true);
+    setBuyTicketBox(false);
   };
 
   const toggleBuyTicketBox = () => {
@@ -190,6 +194,11 @@ export default function DefiLottery() {
     handleRoundLottery()
   };  
 
+
+  
+
+
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(new Date());
@@ -237,6 +246,23 @@ export default function DefiLottery() {
     handleEndTime();
   }, 10000);
 
+  setTimeout( async () => {
+    let _ZmzLotteryContract= await ZmzLotteryContract();
+      const id = await _ZmzLotteryContract.viewCurrentLotteryId();
+      const values = await _ZmzLotteryContract.viewLottery(id);
+      console.log(values)
+      console.log(values.endTime)
+      let timestamp = Math.floor(new Date().getTime() / 1000);
+      if(timestamp >= values.endTime) {
+        closeLottery()
+      } else {
+        console.log("pota")
+      }
+
+     // 
+  //  GetRound();
+  }, 300000);
+
   setTimeout(() => {
     handleRoundLotteryTicket();
   }, 300000);
@@ -277,6 +303,52 @@ export default function DefiLottery() {
     }
   };
 
+  const toggleSetOp = async () => {
+    try {
+      let _ZmzLotteryContract= await ZmzLotteryContract();
+      
+        let _buy = await _ZmzLotteryContract.setOperatorAndTreasuryAndInjectorAddresses('0xbBA8732Ee7c9e61Bc05Af01006785d0d6cd2471e', '0xbBA8732Ee7c9e61Bc05Af01006785d0d6cd2471e', '0xbBA8732Ee7c9e61Bc05Af01006785d0d6cd2471e')
+        let waitForTx = await _buy.wait();
+        if (waitForTx) {
+          toast.success('Transaction successfull.');
+          
+        } else {
+          toast.error('execution reverted');
+         
+        }  
+        
+        
+      } catch (error) {
+        toast.error('execution reverted');
+        console.log(error);
+        
+      }
+
+  };
+
+
+  const toggleStartLottery = async () => {
+    try {
+      let _ZmzLotteryContract= await ZmzLotteryContract();
+      
+        let _buy = await _ZmzLotteryContract.startLottery('1692378000',  1*10**5 , '2000', [250, 375, 625, 1250, 2500, 5000], '2000' )
+        let waitForTx = await _buy.wait();
+        if (waitForTx) {
+          toast.success('Transaction successfull.');
+          
+        } else {
+          toast.error('execution reverted');
+         
+        }  
+        
+        
+      } catch (error) {
+        toast.error('execution reverted');
+        console.log(error);
+        
+      }
+
+  };
 
   const GetRound = async () => {
     try {
@@ -284,8 +356,9 @@ export default function DefiLottery() {
         let _ZmzLotteryContract= await ZmzLotteryContract();
       const id = await _ZmzLotteryContract.viewCurrentLotteryId();
       setLotteryCurrentID(id*1);
+      setCurrentLotteryID(id*1);
       const values = await _ZmzLotteryContract.viewLottery(id);
-
+     
         if (values.status == 1) {
           setInputField(id - 1);
           handleLotery(id - 1) ;
@@ -923,8 +996,8 @@ export default function DefiLottery() {
       let _ZmzContract = await ZmzContract();
       
       let _approve = await _ZmzContract.approve(
-        ZMZ_LOTTERY_CONTRACT_ADDRESS,
-        ethers.utils.parseEther(costUSDValue.toString())
+       ZMZ_LOTTERY_CONTRACT_ADDRESS,
+       ( actualCost ** 10 * 5).toString()
       );
       let waitForTx = await _approve.wait();
       if (waitForTx) {
@@ -963,16 +1036,123 @@ export default function DefiLottery() {
       let waitForTx = await _buy.wait();
       if (waitForTx) {
         toast.success('Transaction successfull.');
+        setBuyTicketBox(false);
       } else {
-        toast.error('execution reverted: Lottery is over');
+        toast.error('execution reverted');
+        setBuyTicketBox(false);
       }  
       
       
     } catch (error) {
-      toast.error('execution reverted: Lottery is over');
+      toast.error('execution reverted');
       console.log(error);
+      setBuyTicketBox(false);
     }
   };
+
+
+  async function startLottery() {
+  console.log("start lottery", networkName);
+  let timestamp = Math.floor(new Date().getTime() / 1000);
+  const [operator] = await ethers.getSigners();
+
+  const contract = await ethers.getContractAt(
+    lotteryabi,
+    ZMZ_LOTTERY_CONTRACT_ADDRESS
+  );
+
+  const [_blockNumber, _gasPrice] = await Promise.all([
+    ethers.providers.getBlockNumber(),
+    ethers.providers.getGasPrice(),
+  ]);
+  console.log("blockcc", _blockNumber)
+  console.log("gas price", _gasPrice.mul(130).div(100))
+  let startLottery = await contract.startLottery(
+    timestamp + Number(process.env.LOTTERY_END_TIME_IN_SEC),
+    1*10**5,
+    config.Discount[networkName],
+    config.Rewards[networkName],
+    config.Treasury[networkName],
+    { from: operator.address, gasLimit: 500000, gasPrice: _gasPrice.mul(130).div(100) }
+  );
+  console.log("start", startLottery)
+  let waitFortx = await startLottery.wait();
+  if (waitFortx) {
+    console.log("wait for tx", waitFortx)
+
+    setTimeout(() => {
+      closeLottery().catch((error) => {
+        console.error(error);
+        process.exitCode = 1;
+      });
+    }, 1000 * process.env.CLOSE_LOTTERY_TIME_IN_SEC);
+  }
+}
+
+async function closeLottery() {
+  console.log("close lottery");
+
+  const [operator] = await ethers.getSigners();
+  const contract = await ethers.getContractAt(
+    lotteryabi,
+    ZMZ_LOTTERY_CONTRACT_ADDRESS
+  );
+  const [_lotteryId, _randomGenerator, _gasPrice] = await Promise.all([
+    contract.currentLotteryId(),
+    contract.randomGenerator(),
+    ethers.providers.getGasPrice(),
+  ]);
+  const tx = await contract.closeLottery(_lotteryId, {
+    from: operator.address,
+    gasLimit: 500000,
+    gasPrice: _gasPrice.mul(130).div(100),
+  });
+  let waitfortx = await tx.wait();
+  if (waitfortx) {
+    setTimeout(() => {
+      drawLottery().catch((error) => {
+        console.error(error);
+        process.exitCode = 1;
+      });
+    }, 1000 * process.env.DRAW_LOTTERY_TIME_IN_SEC);
+  }
+}
+
+async function drawLottery() {
+  console.log("draw lottery");
+
+  const [operator] = await ethers.getSigners();
+
+  const contract = await ethers.getContractAt(
+    lotteryabi,
+    ZMZ_LOTTERY_CONTRACT_ADDRESS
+  );
+  const [_lotteryId, _gasPrice] = await Promise.all([
+    contract.currentLotteryId(),
+    ethers.providers.getGasPrice(),
+  ]);
+
+  const tx = await contract.drawFinalNumberAndMakeLotteryClaimable(
+    _lotteryId,
+    true,
+    {
+      from: operator.address,
+      gasLimit: 500000,
+      gasPrice: _gasPrice.mul(130).div(100),
+
+    }
+  );
+
+  let waitfortx = await tx.wait();
+  if (waitfortx) {
+    setTimeout(() => {
+      startLottery().catch((error) => {
+        console.error(error);
+        process.exitCode = 1;
+      });
+    }, 1000 * process.env.START_LOTTERY_TIME_IN_SEC);
+  }
+}
 
   return (
     <>
@@ -1104,7 +1284,8 @@ export default function DefiLottery() {
         </ul>
       </HeroArea>
       <TicketNow>
-        <h2>Get your tickets now!</h2>
+        <h2>Get your tickets now!</h2> {/*<button onClick={toggleSetOp}>Set Operator</button> */}
+        <button onClick={toggleStartLottery}>Start Lottery </button>
          <p className="ticketClock">  
       {lotteryEndTime !== 0 ? <Countdown
               date={Date.now() + 60000 * lotteryEndTime}
@@ -1115,7 +1296,7 @@ export default function DefiLottery() {
         </p> 
         <div className="ticketMainArea">
           <div className="ticketHeading">
-            Next Draw <span>#{lotteryID} </span>
+            Next Draw <span>#{currentLotteryID} </span>
           </div>
           <div className="ticketBody">
             <h2>
