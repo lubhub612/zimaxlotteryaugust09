@@ -253,7 +253,7 @@ export default function DefiLottery() {
       console.log(values)
       console.log(values.endTime)
       let timestamp = Math.floor(new Date().getTime() / 1000);
-      if(timestamp >= values.endTime) {
+      if(lotteryEndTime == 0) {
         closeLottery()
       } else {
         console.log("pota")
@@ -1284,8 +1284,8 @@ async function drawLottery() {
         </ul>
       </HeroArea>
       <TicketNow>
-        <h2>Get your tickets now!</h2> {/*<button onClick={toggleSetOp}>Set Operator</button> */}
-        <button onClick={toggleStartLottery}>Start Lottery </button>
+        <h2>Get your tickets now!</h2> {/*<button onClick={toggleSetOp}>Set Operator</button> 
+        <button onClick={toggleStartLottery}>Start Lottery </button>  */}
          <p className="ticketClock">  
       {lotteryEndTime !== 0 ? <Countdown
               date={Date.now() + 60000 * lotteryEndTime}
